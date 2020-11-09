@@ -22,17 +22,17 @@ class UserInterface:
         "back np": PREVIOUS_NOT_PROCESSED,
     }
 
-    def get_event(self):
+    def get_event(self, event_prompt):
         while True:
-            answ = input()
+            answ = input(event_prompt)
 
             if answ in self.input_to_event_mapping:
                 return self.input_to_event_mapping[answ]
 
-            print("Invalid input, try again")
+            print(">> Invalid input, try again")
             continue
 
-    def display_word(self, word, idx, size):
+    def get_enter_word_prompt(self, word, idx, size):
         progress = f"[{idx + 1}/{size}]"
 
         if not word.is_checked:
@@ -40,7 +40,7 @@ class UserInterface:
         else:
             status = f"{'[y]' if word.is_known else '[n]'}"
 
-        print(f"{progress} {status} {word.word}: ", end="")
+        return f"{progress} {status} {word.word}: "
 
     def _display_info(self, information):
         print(information)
@@ -51,9 +51,9 @@ class UserInterface:
 
         while not book.are_all_words_processed():
             idx, word = it.get()
-            self.display_word(word, idx, size)
 
-            event = self.get_event()
+            event_prompt = self.get_enter_word_prompt(word, idx, size)
+            event = self.get_event(event_prompt)
 
             if event == UserInterface.ANSWER_KNOWN:
                 word.mark(True)
