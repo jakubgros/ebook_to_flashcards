@@ -1,4 +1,6 @@
-from iterator import Iterator
+from pathlib import Path
+
+from src.iterator import Iterator
 
 
 class UserInterface:
@@ -73,4 +75,7 @@ class UserInterface:
             else:
                 raise Exception("Invalid interface answer")
 
+    def get_path_of_ebook_to_process(self):
+        data = input("Enter path to ebook: ")
+        return str(Path(data))
 
