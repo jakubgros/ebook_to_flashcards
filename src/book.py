@@ -68,3 +68,9 @@ class Book(Serializable):
     @property
     def unknown_words(self):
         return [word for word in self.words_list if word.is_checked and not word.is_known]
+
+    def mark_known_words(self, known_words):
+        for word in self.words_list:
+            if word.word in known_words:
+                word.mark(True)
+

@@ -2,14 +2,13 @@ import json
 import os
 from pathlib import Path
 
-from src.book import Book
 from src.env_utils.base_dir import base_dir
 from src.serialization.serializer_manager import SerializerManager
 
 
 class Database:
     data_path = f"{base_dir}/data/"
-    all_words_dir = data_path + "all_words.txt"
+    known_words_dir = data_path + "known_words.txt"
 
     def has_book(self, book):
         book_uri = self.get_book_uri(book.name) + "//book.json"
@@ -29,13 +28,18 @@ class Database:
         return str(path)
 
     def _extend_known_words(self, words_list):
-        with open(self.all_words_dir, 'w+') as out_file:
-            for word in words_list:
-                print(word.word, file=out_file)
+        out_set = set()
 
-    def _store_to_file(self, file_path, data):
-        with open(file_path + "\\book.json", 'w+') as out_file:
-            print(data, file=out_file)
+        if os.path.exists(self.known_words_dir):
+            with open(self.known_words_dir) as in_file:
+                for word in in_file.readlines():
+                    out_set.add(word)
+
+        out_set.update([word.word for word in words_list])
+
+        with open(self.known_words_dir, 'w') as out_file:
+            for word in out_set:
+                print(word, file=out_file)
 
     def _store_unknown_words(self, save_dir, words):
         with open(save_dir + "\\unkown_words.txt", 'w+') as out_file:
@@ -49,7 +53,20 @@ class Database:
         book_uri = self.get_book_uri(book.name)
         save_dir = self._create_subdir(book_uri)
         data = json.dumps(SerializerManager.serialize(book), indent=4, sort_keys=True)
-        self._store_to_file(save_dir, data)
+
+        with open(save_dir + "\\book.json", 'w+') as out_file:
+            print(data, file=out_file)
+
         self._store_unknown_words(save_dir, book.unknown_words)
 
         self._extend_known_words(book.known_words)
+
+    def get_known_words(self):
+        known_words = set()
+
+        if os.path.exists(self.known_words_dir):
+            with open(self.known_words_dir) as in_file:
+                for word in in_file.readlines():
+                    known_words.add(word)
+
+        return known_words

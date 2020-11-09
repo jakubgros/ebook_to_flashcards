@@ -12,11 +12,14 @@ def main():
 
     if db.has_book(book):
         book = db.restore_book(book)
+
+
+    known_words = db.get_known_words()
+    book.mark_known_words(known_words)
+
     try:
         ui.process(book)
-    except:
-        db.store_book(book)
-    else:
+    finally:
         db.store_book(book)
 
 if __name__ == "__main__":
@@ -24,7 +27,5 @@ if __name__ == "__main__":
 
 
 #TODO jagros add command to switch to next_unprocessed_word
-# TODO jagros make file storage function that behaves as a set
 #add help that prints all commands
 #TODO move the ebook to the directory with data
-#change processing mechanism have regard to already processed words from other books
