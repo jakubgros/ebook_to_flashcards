@@ -26,6 +26,5 @@ if __name__ == "__main__":
     main()
 
 
-#TODO jagros add command to switch to next_unprocessed_word
 #add help that prints all commands
 #TODO move the ebook to the directory with data
