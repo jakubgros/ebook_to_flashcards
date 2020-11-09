@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 from pathlib import Path
 
 from src.env_utils.base_dir import base_dir
@@ -22,7 +23,7 @@ class Database:
 
         return SerializerManager.deserialize(json_data)
 
-    def _create_subdir(self, full_dir):
+    def _create_subdir_if_not_exists(self, full_dir):
         path = Path(full_dir)
         path.mkdir(parents=True, exist_ok=True)
         return str(path)
@@ -51,7 +52,10 @@ class Database:
 
     def store_book(self, book):
         book_uri = self.get_book_uri(book.name)
-        save_dir = self._create_subdir(book_uri)
+        save_dir = self._create_subdir_if_not_exists(book_uri)
+
+        shutil.copy2(book.path, save_dir)
+
         data = json.dumps(SerializerManager.serialize(book), indent=4, sort_keys=True)
 
         with open(save_dir + "\\book.json", 'w+') as out_file:

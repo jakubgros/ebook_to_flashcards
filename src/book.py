@@ -25,7 +25,7 @@ class Word(Serializable):
 
 class Book(Serializable):
     _STATIC_TYPE = "Book"
-    _PROPERTIES_TO_SERIALIZE = {'name', 'words_list'}
+    _PROPERTIES_TO_SERIALIZE = {'name', 'words_list', 'path'}
 
     def __init__(self):
         pass
@@ -33,6 +33,7 @@ class Book(Serializable):
     @classmethod
     def from_path(cls, path):
         obj = cls()
+        obj.path = path
         obj.name = obj._get_name(path)
         obj.words_list = obj._get_words_list(path)
         return obj

@@ -13,7 +13,6 @@ def main():
     if db.has_book(book):
         book = db.restore_book(book)
 
-
     known_words = db.get_known_words()
     book.mark_known_words(known_words)
 
@@ -26,5 +25,3 @@ if __name__ == "__main__":
     main()
 
 
-#add help that prints all commands
-#TODO move the ebook to the directory with data
