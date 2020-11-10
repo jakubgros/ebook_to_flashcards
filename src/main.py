@@ -1,7 +1,8 @@
-
 from src.book import Book
 from src.database import Database
+from src.env_utils.base_dir import base_dir
 from src.user_interface import UserInterface
+
 
 def main():
     db = Database()
@@ -17,11 +18,13 @@ def main():
     book.mark_known_words(known_words)
 
     try:
-        ui.process(book)
+        if not book.are_all_words_processed():
+            ui.interrogate_to_mark_known_words(book)
+
+        ui.make_flashcards(book)
     finally:
         db.store_book(book)
 
+
 if __name__ == "__main__":
     main()
-
-

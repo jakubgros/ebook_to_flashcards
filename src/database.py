@@ -50,6 +50,9 @@ class Database:
     def get_book_uri(self, book_name):
         return self.data_path + "/" + book_name
 
+    def _store_flashcards(self, translation):
+        raise NotImplementedError #TODO jagros
+
     def store_book(self, book):
         book_uri = self.get_book_uri(book.name)
         save_dir = self._create_subdir_if_not_exists(book_uri)
@@ -64,6 +67,8 @@ class Database:
         self._store_unknown_words(save_dir, book.unknown_words)
 
         self._extend_known_words(book.known_words)
+
+        self._store_flashcards(book.meaning)
 
     def get_known_words(self):
         known_words = set()

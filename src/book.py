@@ -3,24 +3,7 @@ import os
 from src.epub_reader import EpubReader, Preprocessor
 
 from src.serialization.serializable import Serializable
-
-
-class Word(Serializable):
-    _STATIC_TYPE = "Word"
-    _PROPERTIES_TO_SERIALIZE = {'word', 'occurrences', 'is_known', 'is_checked'}
-
-    def __init__(self, word=None):
-        self.word = word
-        self.occurrences = 0
-        self.is_known = False
-        self.is_checked = False
-
-    def mark(self, is_known):
-        self.is_known = is_known
-        self.is_checked = True
-
-    def add_occurence(self):
-        self.occurrences += 1
+from src.word import Word
 
 
 class Book(Serializable):
