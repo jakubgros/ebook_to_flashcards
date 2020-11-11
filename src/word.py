@@ -3,7 +3,7 @@ from src.serialization.serializable import Serializable
 
 class Word(Serializable):
     _STATIC_TYPE = "Word"
-    _PROPERTIES_TO_SERIALIZE = {'word', 'occurrences', 'is_known', 'is_checked', 'translations'}
+    _PROPERTIES_TO_SERIALIZE = {'stored_word', 'occurrences', 'is_known', 'is_checked', 'translations'}
 
     def __init__(self, word=None):
         if word is not None:
