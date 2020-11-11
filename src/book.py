@@ -1,6 +1,7 @@
 import os
 
-from src.epub_reader import EpubReader, Preprocessor
+from src.epub_reader import EpubReader
+from src.preprocessor import Preprocessor
 
 from src.serialization.serializable import Serializable
 from src.word import Word
