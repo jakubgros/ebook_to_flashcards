@@ -26,14 +26,10 @@ class TestDatabase(unittest.TestCase):
 
         database.store_book(book)
 
-        restored_book = Book.from_path(
-            f"{base_dir}/test/data/book.epub")  # TODO jagros the interface of restoring is not the best - fix it
-        restored_book = database.restore_book(restored_book)
+        restored_book = database.restore_book(book.name)
 
         words_list_comparator = ContainerComparator(elem_equality_comparator=self._are_words_equal, sort_key=lambda w: w.stored_word)
 
-        a = book.known_words
-        b = restored_book.known_words
         self.assertEqual(book.are_all_words_processed(), restored_book.are_all_words_processed())
         self.assertTrue(words_list_comparator(book.known_words, restored_book.known_words))
         self.assertTrue(words_list_comparator(book.unknown_words, restored_book.unknown_words))
@@ -46,11 +42,7 @@ class TestDatabase(unittest.TestCase):
         book_dir = f"{base_dir}/test/data/book.epub"
         book = Book.from_path(book_dir)
         database.store_book(book)
-        self.assertTrue(database.has_book(book))
-
-        other_instance_of_the_book = Book.from_path(book_dir)
-        self.assertTrue(database.has_book(
-            other_instance_of_the_book))  # TODO jagros the interface of has_book is not the best - fix it
+        self.assertTrue(database.has_book(book.name))
 
     def test_get_known_words(self):
         words_list_comparator = ContainerComparator(elem_equality_comparator=lambda lhs, rhs: lhs == rhs, sort_key=lambda w: w)

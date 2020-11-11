@@ -11,8 +11,8 @@ def main():
     book_path = ui.get_path_of_ebook_to_process()
     book = Book.from_path(book_path)
 
-    if db.has_book(book):
-        book = db.restore_book(book)
+    if db.has_book(book.name):
+        book = db.restore_book(book.name)
 
     known_words = db.get_known_words()
     for word in book.words:
@@ -22,12 +22,11 @@ def main():
     try:
         if not book.are_all_words_processed():
             ui.interrogate_to_mark_known_words(book)
-
         #ui.make_flashcards(book)
     finally:
-        pass
+        db.store_book(book)
 
-    db.store_book(book)
+
 
 
 if __name__ == "__main__":

@@ -13,8 +13,8 @@ class Database:
         self.data_path = handle
         self.known_words_dir = handle + "known_words.txt"
 
-    def has_book(self, book):
-        book_uri = self._get_book_uri(book.name) + "//book.json"
+    def has_book(self, book_name):
+        book_uri = self._get_book_uri(book_name) + "//book.json"
         return os.path.isfile(book_uri)
 
     def store_book(self, book):
@@ -34,8 +34,8 @@ class Database:
 
         self._store_flashcards(save_dir, book.meaning)
 
-    def restore_book(self, book):
-        book_uri = self._get_book_uri(book.name)
+    def restore_book(self, book_name):
+        book_uri = self._get_book_uri(book_name)
         book_uri += "//book.json"
         with open(book_uri) as book_in:
             json_data = json.loads(book_in.read())
