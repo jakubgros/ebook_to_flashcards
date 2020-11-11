@@ -16,7 +16,7 @@ class Word(Serializable):
         self.is_known = is_known
         self.is_checked = True
 
-    def add_occurence(self):
+    def add_occurrence(self):
         self.occurrences += 1
 
     def add_translation(self, translation):

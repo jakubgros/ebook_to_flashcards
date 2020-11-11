@@ -35,7 +35,7 @@ class Book(Serializable):
             if word not in words_map:
                 words_map[word] = Word(word)
 
-            words_map[word].add_occurence()
+            words_map[word].add_occurrence()
 
         as_list = list(words_map.values())
         as_list.sort(key=lambda elem: elem.occurrences, reverse=True)

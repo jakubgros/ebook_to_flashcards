@@ -3,14 +3,23 @@ class Iterator:
         self.container = container
         self.idx = 0
 
-    def _is_valid(self, idx):
-        return 0 <= idx < len(self.container)
-
     def __len__(self):
         return len(self.container)
 
     def get(self):
+        if not self._is_valid(self.idx):
+            raise Exception("Can't get element because iterated container is empty")
+
         return self.idx, self.container[self.idx]
+
+    def next(self, predicate=None):
+        return self._move_idx(1, predicate)
+
+    def previous(self, predicate=None):
+        return self._move_idx(-1, predicate)
+
+    def _is_valid(self, idx):
+        return 0 <= idx < len(self.container) and len(self.container) > 0
 
     def _move_idx(self, dir_val, predicate):
         if predicate:
@@ -29,11 +38,3 @@ class Iterator:
                 return True
             else:
                 return False
-
-    def previous(self, predicate=None):
-        return self._move_idx(-1, predicate)
-
-    def next(self, predicate=None):
-        return self._move_idx(1, predicate)
-
-
