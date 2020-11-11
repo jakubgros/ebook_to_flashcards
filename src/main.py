@@ -16,8 +16,8 @@ def main():
 
     known_words = db.get_known_words()
     for word in book.words:
-        if word.word in known_words:
-            word.mark(True)
+        if word.stored_word in known_words:
+            word.mark_if_known(True)
 
     try:
         if not book.are_all_words_processed():

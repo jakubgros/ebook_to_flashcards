@@ -24,7 +24,7 @@ class Serializable:
 
     @classmethod
     def from_json(cls, json):
-        obj = cls()
+        obj = cls()                                     #TODO change to serialize everything by default and add list of fields that shouldn't be serialized, because now it's easy to forget to add the new field to the list
         for field_name in cls._PROPERTIES_TO_SERIALIZE: #TODO jagros add support for deserialization default values for new fields added after the object was serialized
             json_val = json[field_name]
             val = SerializerManager.deserialize(json_val)

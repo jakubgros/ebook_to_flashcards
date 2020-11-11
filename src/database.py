@@ -36,7 +36,7 @@ class Database:
                 for word in in_file.readlines():
                     out_set.add(word)
 
-        out_set.update([word.word for word in words_list])
+        out_set.update([word.stored_word for word in words_list])
 
         with open(self.known_words_dir, 'w') as out_file:
             for word in out_set:
@@ -45,7 +45,7 @@ class Database:
     def _store_unknown_words(self, save_dir, words):
         with open(save_dir + "\\unkown_words.txt", 'w+') as out_file:
             for word in words:
-                print(word.word, file=out_file)
+                print(word.stored_word, file=out_file)
 
     def get_book_uri(self, book_name):
         return self.data_path + "/" + book_name

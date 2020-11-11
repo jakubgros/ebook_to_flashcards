@@ -32,17 +32,17 @@ class BookTest(unittest.TestCase):
 
         known_words_to_mark = {"the", "it", "on"}
         for word in book.words:
-            if word.word in known_words_to_mark:
-                word.mark(True)
+            if word.stored_word in known_words_to_mark:
+                word.mark_if_known(True)
 
-        self.assertEqual({w.word for w in book.known_words}, known_words_to_mark)
+        self.assertEqual({w.stored_word for w in book.known_words}, known_words_to_mark)
 
         unknown_words_to_mark = {"she", "he"}
         for word in book.words:
-            if word.word in unknown_words_to_mark:
-                word.mark(False)
+            if word.stored_word in unknown_words_to_mark:
+                word.mark_if_known(False)
 
-        self.assertEqual({w.word for w in book.unknown_words}, unknown_words_to_mark)
+        self.assertEqual({w.stored_word for w in book.unknown_words}, unknown_words_to_mark)
 
     def test_are_all_words_processed(self):
         data_dir = f"{base_dir}\\test\\data\\"
@@ -53,7 +53,7 @@ class BookTest(unittest.TestCase):
         self.assertFalse(book.are_all_words_processed())
 
         for word in book.words:
-            word.mark(True)
+            word.mark_if_known(True)
 
         self.assertTrue(book.are_all_words_processed())
 

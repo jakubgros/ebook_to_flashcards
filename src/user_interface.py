@@ -76,7 +76,7 @@ class UserInterface:
         else:
             status = f"{'[y]' if word.is_known else '[n]'}"
 
-        return f"{progress} {status} {word.word}: "
+        return f"{progress} {status} {word.stored_word}: "
 
     def _display_info(self, information):
         print(information)
@@ -109,11 +109,11 @@ class UserInterface:
         }
 
         def ANSWER_KNOWN_func(event, data):
-            data.word.mark(True)
+            data.stored_word.mark_if_known(True)
             data.it.next()
 
         def ANSWER_UNKNOWN_func(event, data):
-            data.word.mark(False)
+            data.stored_word.mark_if_known(False)
             data.it.next()
 
         def PREVIOUS_func(event, data):
@@ -156,7 +156,7 @@ class UserInterface:
         it = Iterator(book.words)
 
         def event_prompt_getter(data):
-            return self.get_enter_word_prompt(data.word, data.idx, data.size)
+            return self.get_enter_word_prompt(data.stored_word, data.idx, data.size)
 
         while not book.are_all_words_processed():
             idx, word = it.get()
@@ -180,11 +180,11 @@ class UserInterface:
     def get_pick_translations_for_the_word_prompt(self, word, translations, idx, size):
         progress = f"[{idx + 1}/{size}]"
         status = f'[{word.translations}]' if word.translations else '[?]'
-        header = f"{progress} {status} {word.word}: "
+        header = f"{progress} {status} {word.stored_word}: "
 
         body = ""
         for idx, translation in enumerate(translations):
-            translated_word = ", ".join(translation.word)
+            translated_word = ", ".join(translation.stored_word)
             meanings = ", ".join(translation.meaning)
 
             if translation.examples_and_its_translations:
@@ -217,7 +217,7 @@ class UserInterface:
         while self._any_word_needs_translation(book.words):
             idx, word = it.get()
 
-            translations = translator.get_translation(word.word)
+            translations = translator.get_translation(word.stored_word)
             event_prompt = self.get_pick_translations_for_the_word_prompt(word, translations, idx, size)
             event = self.get_event(event_prompt, input_to_event_mapping)
 
