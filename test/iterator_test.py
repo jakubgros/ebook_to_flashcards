@@ -54,7 +54,7 @@ class IteratorTest(unittest.TestCase):
         self.assertEqual(it.next(), False)  # it -> container[2]
         self.assertEqual(it.previous(), True)  # it -> container[1]
 
-    def test_iteration_with_predicate(self):
+    def test_iteration_with_matching_predicate(self):
         container = [
             (10, False),
             (55, False),
@@ -90,7 +90,25 @@ class IteratorTest(unittest.TestCase):
             self.assertEqual(exp_idx, idx)
             self.assertEqual(exp_elem, elem)
 
+    def test_iteration_with_not_matching_predicate(self):
+        container = [
+            (10, False),
+            (55, False),
+            (11, False),
+            (43, False),
+            (41, False),
+            (41, False),
+        ]
 
+        def predicate(elem):
+            return elem[1] is True
+
+        it = Iterator(container)
+
+        pre = it.get()
+        self.assertFalse(it.next(predicate))
+        post = it.get()
+        self.assertEqual(pre, post)
 
 if __name__ == '__main__':
     unittest.main()
