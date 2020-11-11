@@ -50,8 +50,10 @@ class Database:
     def get_book_uri(self, book_name):
         return self.data_path + "/" + book_name
 
-    def _store_flashcards(self, translation):
-        raise NotImplementedError #TODO jagros
+    def _store_flashcards(self, save_dir, translations):
+        with open(save_dir + "\\flashcards.txt", 'w+') as out_file:
+            for translation in translations:
+                print(translation, file=out_file)
 
     def store_book(self, book):
         book_uri = self.get_book_uri(book.name)
@@ -68,7 +70,7 @@ class Database:
 
         self._extend_known_words(book.known_words)
 
-        self._store_flashcards(book.meaning)
+        self._store_flashcards(save_dir, book.meaning)
 
     def get_known_words(self):
         known_words = set()

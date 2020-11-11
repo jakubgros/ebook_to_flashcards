@@ -6,6 +6,9 @@ class Iterator:
     def _is_valid(self, idx):
         return 0 <= idx < len(self.container)
 
+    def __len__(self):
+        return len(self.container)
+
     def get(self):
         return self.idx, self.container[self.idx]
 

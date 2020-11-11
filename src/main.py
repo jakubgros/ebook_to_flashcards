@@ -21,9 +21,11 @@ def main():
         if not book.are_all_words_processed():
             ui.interrogate_to_mark_known_words(book)
 
-        ui.make_flashcards(book)
+        #ui.make_flashcards(book)
     finally:
-        db.store_book(book)
+        pass
+
+    db.store_book(book)
 
 
 if __name__ == "__main__":
