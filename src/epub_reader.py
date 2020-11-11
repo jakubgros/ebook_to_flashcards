@@ -7,20 +7,13 @@ class EpubReader:
         self.ebook_path = ebook_path
 
     def get_text(self):
-        thtml_by_chapter = self._epub2thtml(self.ebook_path)
-        text_by_chapter = self._thtml2ttext(thtml_by_chapter)
+        book = epub.read_epub(self.ebook_path)
+        chapters = [item.get_content() for item in book.get_items() if item.get_type() == ebooklib.ITEM_DOCUMENT]
+        text_by_chapter = [self._chapter_to_text(ch) for ch in chapters]
         return " ".join(text_by_chapter)
 
-
-    def _epub2thtml(self, epub_path):
-        book = epub.read_epub(epub_path)
-        chapters = []
-        for item in book.get_items():
-            if item.get_type() == ebooklib.ITEM_DOCUMENT:
-                chapters.append(item.get_content())
-        return chapters
-
-    def _chap2text(self, chap):
+    @staticmethod
+    def _chapter_to_text(chap):
         blacklist = [
             '[document]',
             'noscript',
@@ -30,20 +23,10 @@ class EpubReader:
             'head',
             'input',
             'script',
-            # there may be more elements you don't want, such as "style", etc.
         ]
 
-        output = ''
         soup = BeautifulSoup(chap, 'html.parser')
         text = soup.find_all(text=True)
-        for t in text:
-            if t.parent.name not in blacklist:
-                output += '{} '.format(t)
-        return output
 
-    def _thtml2ttext(self, thtml):
-        Output = []
-        for html in thtml:
-            text = self._chap2text(html)
-            Output.append(text)
-        return Output
+        filtered_text = [t for t in text if t.parent.name not in blacklist]
+        return " ".join(filtered_text)
