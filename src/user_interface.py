@@ -152,8 +152,8 @@ class UserInterface:
         event_prompt = self.get_enter_word_prompt
         event_handler = EventHandler(event_mapping)
 
-        size = len(book.words_list)
-        it = Iterator(book.words_list)
+        size = len(book.words)
+        it = Iterator(book.words)
 
         def event_prompt_getter(data):
             return self.get_enter_word_prompt(data.word, data.idx, data.size)
@@ -199,8 +199,8 @@ class UserInterface:
         return translation_prompt
 
     def make_flashcards(self, book):
-        size = len(book.words_list)
-        it = Iterator(book.words_list)
+        size = len(book.words)
+        it = Iterator(book.words)
 
         input_to_event_mapping = {
             "q": (EventTypes.ANSWER_KNOWN, "Answer known"),
@@ -214,7 +214,7 @@ class UserInterface:
         }
 
         translator = Translator()
-        while self._any_word_needs_translation(book.words_list):
+        while self._any_word_needs_translation(book.words):
             idx, word = it.get()
 
             translations = translator.get_translation(word.word)

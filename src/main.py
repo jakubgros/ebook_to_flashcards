@@ -15,7 +15,9 @@ def main():
         book = db.restore_book(book)
 
     known_words = db.get_known_words()
-    book.mark_known_words(known_words)
+    for word in book.words:
+        if word.word in known_words:
+            word.mark(True)
 
     try:
         if not book.are_all_words_processed():

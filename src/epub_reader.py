@@ -2,6 +2,7 @@ import ebooklib
 from ebooklib import epub
 from bs4 import BeautifulSoup
 
+
 class EpubReader:
     def __init__(self, ebook_path):
         self.ebook_path = ebook_path
