@@ -1,5 +1,5 @@
-
 from src.serialization.serializer_manager import SerializerManager
+
 
 class Serializer:
 
@@ -47,55 +47,14 @@ class Serializer:
         return self._from_json(json_obj['properties'])
 
 
-class StringSerializer(Serializer):
-    _SUPPORTED_CLASS = str
-    _SUPPORTED_CLASS_STATIC_TYPE = "string"
-
-    def _from_json(self, json_str):
-        return json_str
-
-    def _to_json(self, str_obj):
-        return str_obj
 
 
-class ListSerializer(Serializer):
-    _SUPPORTED_CLASS = list
-    _SUPPORTED_CLASS_STATIC_TYPE = "list"
-
-    def _from_json(self, json_list):
-        return [SerializerManager.deserialize(elem) for elem in json_list]
-
-    def _to_json(self, list_obj):
-        return [SerializerManager.serialize(elem) for elem in list_obj]
 
 
-class DictSerializer(Serializer):
-    _SUPPORTED_CLASS = dict
-    _SUPPORTED_CLASS_STATIC_TYPE = "dictionary"
 
-    def _from_json(self, json_dict):
-        return {key: SerializerManager.deserialize(json_val) for (key, json_val) in json_dict.items()}
 
-    def _to_json(self, dict_obj):
-        return {key: SerializerManager.serialize(obj_val) for (key, obj_val) in dict_obj.items()}
 
-class IntSerializer(Serializer):
-    _SUPPORTED_CLASS = int
-    _SUPPORTED_CLASS_STATIC_TYPE = "integer"
 
-    def _from_json(self, json_val):
-        return json_val
 
-    def _to_json(self, int_val):
-        return int_val
 
-class BoolSerializer(Serializer):
-    _SUPPORTED_CLASS = bool
-    _SUPPORTED_CLASS_STATIC_TYPE = "bool"
-
-    def _from_json(self, json_val):
-        return json_val
-
-    def _to_json(self, int_val):
-        return int_val
 

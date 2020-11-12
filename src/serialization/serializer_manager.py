@@ -1,13 +1,10 @@
-import json
-
-
 class SerializerManager:
     SERIALIZER_MAP = {}
 
     @staticmethod
     def register_serializer(serializer, unique_type):
-        #if unique_type in SerializerManager.SERIALIZER_MAP: #TODO Jagros reenable
-        #    raise Exception(f"The '{unique_type}' serializer type is not unique")
+        if unique_type in SerializerManager.SERIALIZER_MAP:
+            raise Exception(f"The '{unique_type}' serializer type is not unique")
         SerializerManager.SERIALIZER_MAP[unique_type] = serializer
 
     @staticmethod

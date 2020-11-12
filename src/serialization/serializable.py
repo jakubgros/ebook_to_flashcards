@@ -1,4 +1,4 @@
-from src.serialization.serializer import Serializer
+from src.serialization.serializers.serializer import Serializer
 from src.serialization.serializer_manager import SerializerManager
 
 class Serializable:
@@ -7,7 +7,7 @@ class Serializable:
 
         obligatory_fields = ["_STATIC_TYPE", "_PROPERTIES_TO_SERIALIZE"]
         for field in obligatory_fields:
-            if not hasattr(cls, field) :
+            if not hasattr(cls, field):
                 raise AttributeError(f"The {cls} Serializable class has to define {field} property")
 
         class SerializableSerializer(Serializer):
@@ -19,8 +19,6 @@ class Serializable:
 
             def _from_json(self, json_obj):
                 return self._SUPPORTED_CLASS.from_json(json_obj)
-
-        SerializerManager.register_serializer(SerializableSerializer, cls._STATIC_TYPE)
 
     @classmethod
     def from_json(cls, json):
