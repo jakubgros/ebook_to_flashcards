@@ -8,7 +8,7 @@ class SerializerManager:
         SerializerManager.SERIALIZER_MAP[unique_type] = serializer
 
     @staticmethod
-    def get_serializer(type):
+    def _get_serializer(type):
         if type in SerializerManager.SERIALIZER_MAP:
             return SerializerManager.SERIALIZER_MAP[type]()
         else:
@@ -18,7 +18,7 @@ class SerializerManager:
     def deserialize(json_val):
         obj_type = json_val['type']
 
-        serializer = SerializerManager.get_serializer(obj_type)
+        serializer = SerializerManager._get_serializer(obj_type)
         obj = serializer.deserialize(json_val)
 
         return obj
@@ -37,8 +37,10 @@ class SerializerManager:
             return "integer" #TODO dehardcode (it's used in many places, put it into single place)
         elif isinstance(obj, float):
             return "float" #TODO dehardcode (it's used in many places, put it into single place)
+        elif isinstance(obj, set):
+            return "set"
         else:
-            raise('Not supported type  {type(obj)}')
+            raise TypeError(f'Not supported type {type(obj)}')
 
     @staticmethod
     def serialize(val):
@@ -49,6 +51,6 @@ class SerializerManager:
         else:
             val_type = SerializerManager._get_type_of_basic_type(val)
 
-        serializer = SerializerManager.get_serializer(val_type)
+        serializer = SerializerManager._get_serializer(val_type)
 
         return serializer.serialize(val)

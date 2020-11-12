@@ -6,9 +6,14 @@ class Serializable:
         super().__init_subclass__()
 
         obligatory_fields = ["_STATIC_TYPE", "_PROPERTIES_TO_SERIALIZE"]
+
+        missing_fields = []
         for field in obligatory_fields:
             if not hasattr(cls, field):
-                raise AttributeError(f"The {cls} Serializable class has to define {field} property")
+                missing_fields.append(field)
+
+        if missing_fields:
+            raise AttributeError(f"The {cls.__name__} class has to define the following properties: {', '.join(missing_fields)}")
 
         class SerializableSerializer(Serializer):
             _SUPPORTED_CLASS = cls
@@ -21,8 +26,8 @@ class Serializable:
                 return self._SUPPORTED_CLASS.from_json(json_obj)
 
     @classmethod
-    def from_json(cls, json):
-        obj = cls()                                     #TODO change to serialize everything by default and add list of fields that shouldn't be serialized, because now it's easy to forget to add the new field to the list
+    def from_json(cls, json): #TODO change to serialize everything by default and add list of fields that shouldn't be serialized, because now it's easy to forget to add the new field to the list
+        obj = cls()                        #TODO change ctors to take kwargs and args
         for field_name in cls._PROPERTIES_TO_SERIALIZE: #TODO jagros add support for deserialization default values for new fields added after the object was serialized
             json_val = json[field_name]
             val = SerializerManager.deserialize(json_val)
