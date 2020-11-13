@@ -1,60 +1,13 @@
-from enum import Enum, auto
 from pathlib import Path
 
+from src.interface.event import Event
+from src.interface.event_handler import EventHandler
+from src.interface.event_types import EventTypes
+from src.interface.feature import Feature
 from src.translator.translator import Translator
 from src.iterator import Iterator
 from dotmap import DotMap
 
-class EventTypes(Enum):
-    ANSWER_KNOWN = auto()
-    ANSWER_UNKNOWN = auto()
-    PREVIOUS = auto()
-    NEXT = auto()
-    QUIT = auto()
-    NEXT_NOT_PROCESSED = auto()
-    PREVIOUS_NOT_PROCESSED = auto()
-    HELP = auto()
-
-
-class Event:
-
-    @classmethod
-    def from_string(cls, str_val):
-        type, mapping = cls._parse(str_val)
-        return cls(type, mapping)
-
-    def __init__(self, answ, mapping):
-        self.type, self.description = None, None
-        if answ in mapping:
-            self.type, self.description = mapping[answ]
-
-    def is_valid(self):
-        return self.type is not None
-
-    @staticmethod
-    def _parse(value):
-
-        """
-        self.type = event_type
-        self.attributes = attributes
-        """
-
-
-class Feature:
-    def __init__(self, function, description):
-        self.function = function
-        self.description = description
-
-    def run(self, data):
-        self.function(data)
-
-class EventHandler:
-    def __init__(self, event_type_to_function_and_description):
-        self.event_type_to_function_and_description = event_type_to_function_and_description
-
-    def process(self, event, data):
-        feature = self.event_type_to_function_and_description[event.type]
-        feature.function(event, data)
 
 class UserInterface:
 
@@ -96,6 +49,10 @@ class UserInterface:
 
             return False
 
+
+
+
+
     def interrogate_to_mark_known_words(self, book):
         input_to_event_mapping = {
             "q": (EventTypes.ANSWER_KNOWN, "Answer known"),
@@ -109,11 +66,11 @@ class UserInterface:
         }
 
         def ANSWER_KNOWN_func(event, data):
-            data.stored_word.mark_if_known(True)
+            data.word.mark_if_known(True)
             data.it.next()
 
         def ANSWER_UNKNOWN_func(event, data):
-            data.stored_word.mark_if_known(False)
+            data.word.mark_if_known(False)
             data.it.next()
 
         def PREVIOUS_func(event, data):
@@ -156,7 +113,7 @@ class UserInterface:
         it = Iterator(book.words)
 
         def event_prompt_getter(data):
-            return self.get_enter_word_prompt(data.stored_word, data.idx, data.size)
+            return self.get_enter_word_prompt(data.word, data.idx, data.size)
 
         while not book.are_all_words_processed():
             idx, word = it.get()

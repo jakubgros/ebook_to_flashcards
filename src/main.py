@@ -1,7 +1,6 @@
 from src.book import Book
 from src.database import Database
-from src.env_utils.base_dir import base_dir
-from src.user_interface import UserInterface
+from src.interface.user_interface import UserInterface
 
 
 def main():

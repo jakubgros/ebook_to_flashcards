@@ -24,6 +24,7 @@ class Serializable:
     @classmethod
     def from_json(cls, json):
         obj = cls()
+        #TODO jagros - check if all keys from cls._PROPERTIES_TO_SERIALIZE are available in json obj, if not, throw exception
         for field_name in cls._PROPERTIES_TO_SERIALIZE:
             json_val = json[field_name]
             val = SerializerManager.deserialize(json_val)
