@@ -1,34 +1,14 @@
 from src.serialization.serializer_manager import SerializerManager
+from src.utilities import validate_obligatory_fields
 
 
 class Serializer:
-
-    # FIELDS TO OVERLOAD START
-    _SUPPORTED_CLASS = None
-    SUPPORTED_CLASS_STATIC_TYPE = None
-
-    def _from_json(self, json_obj):
-        raise NotImplemented
-
-    def _to_json(self, obj):
-        raise NotImplemented
-
-    #FIELDS TO OVERLOAD END
-
-    @staticmethod
-    def _validate_obligatory_fields(cls):
-
-        obligatory_fields = ["_SUPPORTED_CLASS", "SUPPORTED_CLASS_STATIC_TYPE"]
-        for field in obligatory_fields:
-            if not hasattr(cls, field):
-                raise AttributeError(f"Serializable class has to define {field} property")
-
     def __init_subclass__(cls):
         super().__init_subclass__()
+        obligatory_fields = ["_SUPPORTED_CLASS", "SUPPORTED_CLASS_STATIC_TYPE", "_from_json", "_to_json"]
 
-        Serializer._validate_obligatory_fields(cls)
+        validate_obligatory_fields(cls, obligatory_fields)
         SerializerManager.register_serializer(cls, cls.SUPPORTED_CLASS_STATIC_TYPE)
-
 
     def serialize(self, obj):
         if not isinstance(obj, self._SUPPORTED_CLASS):
@@ -38,7 +18,6 @@ class Serializer:
             "type": self.SUPPORTED_CLASS_STATIC_TYPE,
             'properties': self._to_json(obj)
         }
-
 
     def deserialize(self, json_obj):
         if json_obj['type'] != self.SUPPORTED_CLASS_STATIC_TYPE:

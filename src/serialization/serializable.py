@@ -1,19 +1,15 @@
 from src.serialization.serializers.serializer import Serializer
 from src.serialization.serializer_manager import SerializerManager
+from src.utilities import validate_obligatory_fields
+
 
 class Serializable:
+
     def __init_subclass__(cls):
         super().__init_subclass__()
 
         obligatory_fields = ["_STATIC_TYPE", "_PROPERTIES_TO_SERIALIZE"]
-
-        missing_fields = []
-        for field in obligatory_fields:
-            if not hasattr(cls, field):
-                missing_fields.append(field)
-
-        if missing_fields:
-            raise AttributeError(f"The {cls.__name__} class has to define the following properties: {', '.join(missing_fields)}")
+        validate_obligatory_fields(cls, obligatory_fields)
 
         class SerializableSerializer(Serializer):
             _SUPPORTED_CLASS = cls
@@ -43,6 +39,3 @@ class Serializable:
             as_dict[field_name] = json_val
 
         return as_dict
-
-
-
