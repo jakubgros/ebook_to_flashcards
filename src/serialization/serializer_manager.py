@@ -11,16 +11,13 @@ class SerializerManager:
             val_type = SerializerManager._get_type_of_basic_type(val)
 
         serializer = SerializerManager._get_serializer(val_type)
-
         return serializer.serialize(val)
 
     @staticmethod
     def deserialize(json_val):
         obj_type = json_val['type']
-
         serializer = SerializerManager._get_serializer(obj_type)
         obj = serializer.deserialize(json_val)
-
         return obj
 
     @staticmethod
@@ -28,7 +25,6 @@ class SerializerManager:
         if unique_type in SerializerManager._SERIALIZER_MAP:
             raise Exception(f"The '{unique_type}' serializer type is not unique")
         SerializerManager._SERIALIZER_MAP[unique_type] = serializer
-
 
     @staticmethod
     def _get_serializer(object_type):
@@ -45,6 +41,7 @@ class SerializerManager:
         from src.serialization.serializers.int_serializer import IntSerializer
         from src.serialization.serializers.dict_serializer import DictSerializer
         from src.serialization.serializers.set_serializer import SetSerializer
+        from src.serialization.serializers.float_serializer import FloatSerializer
 
         if isinstance(obj, str):
             return StringSerializer.SUPPORTED_CLASS_STATIC_TYPE
@@ -57,9 +54,8 @@ class SerializerManager:
         elif isinstance(obj, int):
             return IntSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, float):
-            return "float" #TODO dehardcode (it's used in many places, put it into single place)
+            return FloatSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, set):
             return SetSerializer.SUPPORTED_CLASS_STATIC_TYPE
         else:
             raise TypeError(f'Not supported type {type(obj)}')
-
