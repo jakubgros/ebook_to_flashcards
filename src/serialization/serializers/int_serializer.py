@@ -3,7 +3,7 @@ from src.serialization.serializers.serializer import Serializer
 
 class IntSerializer(Serializer):
     _SUPPORTED_CLASS = int
-    _SUPPORTED_CLASS_STATIC_TYPE = "integer"
+    SUPPORTED_CLASS_STATIC_TYPE = "integer"
 
     def _from_json(self, json_val):
         return json_val

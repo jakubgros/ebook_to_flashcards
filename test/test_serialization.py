@@ -56,24 +56,26 @@ class SerializationTest(unittest.TestCase):
 
         class MySerializableClass(Serializable):
             _STATIC_TYPE = "MySerializableClass"
-            _PROPERTIES_TO_SERIALIZE = ["val1", "val2", "a_dict", "a_list", "a_set"]
+            _PROPERTIES_TO_SERIALIZE = ["int_val", "int_val_for_composed_class", "float_val", "a_dict", "a_list", "a_set"]
 
-            def initialize(self, val1, val2, a_dict, a_list, a_set):
-                self.val1 = val1
-                self.val2 = OtherSerializableClass().initialize(val2)
+            def initialize(self, int_val, int_val_for_composed_class, float_val, a_dict, a_list, a_set):
+                self.int_val = int_val
+                self.int_val_for_composed_class = OtherSerializableClass().initialize(int_val_for_composed_class)
+                self.float_val = float_val
                 self.a_dict = a_dict
                 self.a_list = a_list
                 self.a_set = a_set
                 return self
 
             def __eq__(self, other):
-                return self.val1 == other.val1 \
-                       and self.val2 == self.val2 \
+                return self.int_val == other.int_val \
+                       and self.int_val_for_composed_class == other.int_val_for_composed_class \
+                       and self.float_val == other.float_val \
                        and self.a_dict == other.a_dict \
                        and self.a_list == other.a_list \
                        and self.a_set == other.a_set
 
-        obj = MySerializableClass().initialize(1, 2, {"key1": 1, "key2": 2}, [1, 2, 3, 4], {1, 2, 3})
+        obj = MySerializableClass().initialize(1, 2, 3.5, {"key1": 1, "key2": 2}, [1, 2, 3, 4], {1, 2, 3})
 
         serialized = SerializerManager.serialize(obj)
         deserialized = SerializerManager.deserialize(serialized)

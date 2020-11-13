@@ -1,3 +1,6 @@
+
+
+
 class SerializerManager:
     SERIALIZER_MAP = {}
 
@@ -25,20 +28,27 @@ class SerializerManager:
 
     @staticmethod
     def _get_type_of_basic_type(obj):
+        from src.serialization.serializers.string_serializer import StringSerializer
+        from src.serialization.serializers.list_serializer import ListSerializer
+        from src.serialization.serializers.bool_serializer import BoolSerializer
+        from src.serialization.serializers.int_serializer import IntSerializer
+        from src.serialization.serializers.dict_serializer import DictSerializer
+        from src.serialization.serializers.set_serializer import SetSerializer
+
         if isinstance(obj, str):
-            return "string"
+            return StringSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, list):
-            return "list"
+            return ListSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, dict):
-            return "dictionary" #TODO dehardcode (it's used in many places, put it into single place)
+            return DictSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, bool): # Important: has to be before int because bool is subclass of int and would be incorrectly handled if the order would be changed
-            return "bool" #TODO dehardcode (it's used in many places, put it into single place)
+            return BoolSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, int):
-            return "integer" #TODO dehardcode (it's used in many places, put it into single place)
+            return IntSerializer.SUPPORTED_CLASS_STATIC_TYPE
         elif isinstance(obj, float):
             return "float" #TODO dehardcode (it's used in many places, put it into single place)
         elif isinstance(obj, set):
-            return "set"
+            return SetSerializer.SUPPORTED_CLASS_STATIC_TYPE
         else:
             raise TypeError(f'Not supported type {type(obj)}')
 

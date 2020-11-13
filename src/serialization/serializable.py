@@ -17,7 +17,7 @@ class Serializable:
 
         class SerializableSerializer(Serializer):
             _SUPPORTED_CLASS = cls
-            _SUPPORTED_CLASS_STATIC_TYPE = cls._STATIC_TYPE
+            SUPPORTED_CLASS_STATIC_TYPE = cls._STATIC_TYPE
 
             def _to_json(self, obj):
                 return obj.to_json()
@@ -26,9 +26,9 @@ class Serializable:
                 return self._SUPPORTED_CLASS.from_json(json_obj)
 
     @classmethod
-    def from_json(cls, json): #TODO change to serialize everything by default and add list of fields that shouldn't be serialized, because now it's easy to forget to add the new field to the list
-        obj = cls()                        #TODO change ctors to take kwargs and args
-        for field_name in cls._PROPERTIES_TO_SERIALIZE: #TODO jagros add support for deserialization default values for new fields added after the object was serialized
+    def from_json(cls, json):
+        obj = cls()
+        for field_name in cls._PROPERTIES_TO_SERIALIZE:
             json_val = json[field_name]
             val = SerializerManager.deserialize(json_val)
             setattr(obj, field_name, val)
