@@ -1,13 +1,19 @@
-from src.book import Book
 from src.database import Database
-from src.interface.user_interface import UserInterface
+from src.interface.features.show_main_menu_feature import ShowMainMenuFeature
+from src.interface.user_interface import Interface
 
 
 def main():
-    db = Database()
-    ui = UserInterface()
 
-    book_path = ui.get_path_of_ebook_to_process()
+    interface = Interface()
+    ShowMainMenuFeature.run(interface)
+    #TODO implement stack for handling feature calls. Quit => stack.popAll
+
+    """"
+        db = Database()
+
+    data = input("Enter path to ebook: ")
+    book_path = str(Path(data))
     book = Book.from_path(book_path)
 
     if db.has_book(book.name):
@@ -20,11 +26,12 @@ def main():
 
     try:
         if not book.are_all_words_processed():
-            ui.interrogate_to_mark_known_words(book)
-        #ui.make_flashcards(book)
+            feat = InterrogateToMarkKnownWordsFeature()
+            feat.run(interface, book)
     finally:
         db.store_book(book)
 
+    """
 
 
 
