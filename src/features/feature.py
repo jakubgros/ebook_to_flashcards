@@ -1,6 +1,5 @@
 class Feature:
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         raise NotImplementedError
 
 

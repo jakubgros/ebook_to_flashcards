@@ -1,11 +1,11 @@
-from src.features import ShowMainMenuFeature
+from src.features.show_main_menu_feature import ShowMainMenuFeature
 from src.user_interface import Interface
 
 
 def main():
 
     interface = Interface()
-    ShowMainMenuFeature.run(interface)
+    ShowMainMenuFeature().run(interface)
     #TODO implement stack for handling feature calls. Quit => stack.popAll
 
     """"

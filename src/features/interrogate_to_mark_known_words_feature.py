@@ -4,7 +4,8 @@ from src.book import Book
 from src.database import Database
 from src.event_translator import EventTranslator
 from src.event_handler import EventHandler
-from src.features import display_help
+from src.features import displayhelp
+from src.features.displayhelp import DisplayHelp
 from src.features.feature import Feature
 from src.iterator import Iterator
 
@@ -13,41 +14,35 @@ from enum import Enum, auto
 
 
 class ANSWER_KNOWN_feat(Feature):
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         kwargs['word'].mark_if_known(True)
         kwargs['it'].next()
 
 class ANSWER_UNKNOWN_feat(Feature):
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         kwargs['word'].mark_if_known(False)
         kwargs['it'].next()
 
 class PREVIOUS_feat(Feature):
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         success = kwargs['it'].previous()
         if not success:
             interface.display_info("can't go back")
 
 class NEXT_feat(Feature):
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         success = kwargs['it'].next()
         if not success:
             interface.display_info("can't go forward")
 
 class NEXT_NOT_PROCESSED_feat(Feature):
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         success = kwargs['it'].next(lambda w: not w.is_checked)
         if not success:
             interface.display_info("Everything from current point till the end has been processed. Can't jump forward to next unprocessed word. ")
 
 class PREVIOUS_NOT_PROCESSED_feat(Feature):
-    @staticmethod
-    def run(interface, **kwargs):
+    def run(self, interface, **kwargs):
         success = kwargs['it'].previous(lambda w: not w.is_checked)
         if not success:
             interface.display_info("Everything from current point till the beggining has been processed. Can't jump backward to prevuous unprocessed word. ")
@@ -77,13 +72,13 @@ class InterrogateToMarkKnownWordsFeature(Feature):
     }
 
     event_to_feature_mapping = {
-        EventTypes.ANSWER_KNOWN: ANSWER_KNOWN_feat,
-        EventTypes.ANSWER_UNKNOWN: ANSWER_UNKNOWN_feat,
-        EventTypes.PREVIOUS: PREVIOUS_feat,
-        EventTypes.NEXT: NEXT_feat,
-        EventTypes.NEXT_NOT_PROCESSED: NEXT_NOT_PROCESSED_feat,
-        EventTypes.PREVIOUS_NOT_PROCESSED: PREVIOUS_NOT_PROCESSED_feat,
-        EventTypes.HELP: display_help,
+        EventTypes.ANSWER_KNOWN: ANSWER_KNOWN_feat(),
+        EventTypes.ANSWER_UNKNOWN: ANSWER_UNKNOWN_feat(),
+        EventTypes.PREVIOUS: PREVIOUS_feat(),
+        EventTypes.NEXT: NEXT_feat(),
+        EventTypes.NEXT_NOT_PROCESSED: NEXT_NOT_PROCESSED_feat(),
+        EventTypes.PREVIOUS_NOT_PROCESSED: PREVIOUS_NOT_PROCESSED_feat(),
+        EventTypes.HELP: DisplayHelp(),
     }
 
     def __init__(self):
@@ -98,8 +93,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         if db.has_book(book.name):
             book = db.restore_book(book.name)
 
-
-        it = Iterator(kwargs['words'])
+        it = Iterator(book.words)
         while not book.are_all_words_processed():
             idx, word = it.get()
 
@@ -121,6 +115,6 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         else:
             status = f"{'[y]' if word.is_known else '[n]'}"
 
-        return f"{progress} {status} {word.stored_word}: "
+        return f"{progress} {status} {word.stored_word}"
 
 
