@@ -1,4 +1,4 @@
-from src.interface.features.feature import Feature
+from src.features.feature import Feature
 
 
 class display_help(Feature):

@@ -13,6 +13,7 @@ class Database:
         self.data_path = handle
         self.known_words_dir = handle + "known_words.txt"
 
+
     def has_book(self, book_name):
         book_uri = self._get_book_uri(book_name) + "//book.json"
         return os.path.isfile(book_uri)

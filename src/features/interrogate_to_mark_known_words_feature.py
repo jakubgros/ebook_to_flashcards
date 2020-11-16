@@ -1,7 +1,11 @@
-from src.interface.event_validator import EventTranslator
-from src.interface.event_handler import EventHandler
-from src.interface.features.display_help import display_help
-from src.interface.features.feature import Feature
+import os
+
+from src.book import Book
+from src.database import Database
+from src.event_translator import EventTranslator
+from src.event_handler import EventHandler
+from src.features import display_help
+from src.features.feature import Feature
 from src.iterator import Iterator
 
 from enum import Enum, auto
@@ -86,13 +90,23 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         self.event_handler = EventHandler(self.event_to_feature_mapping, self.input_to_event_mapping, self.EventTypes)
 
     def run(self, interface, **kwargs):
-        interface.get_path_from_input("Enter path to ebook")
+        db = Database()
+
+        book_path = interface.get_input("Enter path to ebook", input_validator=lambda answ: os.path.isfile(answ))
+
+        book = Book.from_path(book_path)
+        if db.has_book(book.name):
+            book = db.restore_book(book.name)
+
+
         it = Iterator(kwargs['words'])
-        while not kwargs['book'].are_all_words_processed():
+        while not book.are_all_words_processed():
             idx, word = it.get()
 
             event_prompt = self._get_enter_word_prompt(word, idx, len(it))
-            event = interface.get_event(event_prompt, EventTranslator(self.input_to_event_mapping))
+            event_translator = EventTranslator(self.input_to_event_mapping)
+            event_str = interface.get_input(event_prompt, input_validator=event_translator.is_valid)
+            event = event_translator.translate(event_str)
             if event == self.EventTypes.QUIT:
                 return self.EventTypes.QUIT
 

@@ -1,23 +1,14 @@
-from pathlib import Path
-
-
 class Interface:
-    def get_event(self, event_prompt, event_translator):
-        while True:
-            answ = input(event_prompt)
-            if event_translator.is_valid(answ):
-                return event_translator.translate(answ)
-            else:
-                print(">> Invalid input, try again")
-
     def display_info(self, txt):
         print(txt)
 
-    def get_path_from_input(self, prompt):
-        answ = input(prompt + ": ")
-        return Path(answ)
-
-
+    def get_input(self, prompt, *, input_validator):
+        while True:
+            answ = input(prompt + ": ")
+            if input_validator(answ):
+                return answ
+            else:
+                print(">> Invalid input, try again")
 
 
 
