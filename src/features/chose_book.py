@@ -8,6 +8,7 @@ from src.features.displayhelp import DisplayHelp
 from src.features.feature import Feature
 
 class AddNewBook(Feature):
+    HELP = "Allows to add a new book"
     def run(self, interface, **kwargs):
         book_path = interface.get_input("Enter path to ebook", input_validator=lambda answ: os.path.isfile(answ))
         book = Book.from_path(book_path)
@@ -17,11 +18,15 @@ class AddNewBook(Feature):
 
         return book
 
-class Quit(Feature):
+class QuitAndSave(Feature):
+    HELP = "Quit and save"
+
     def run(self, interface, **kwargs):
        exit(0)
 
 class PickBookFromDatabase(Feature):
+    HELP = "Allows to pick a book from database"
+
     def run(self, interface, **kwargs):
         db = Database()
 
@@ -48,10 +53,10 @@ class PickBookFromDatabase(Feature):
 
 class ChoseBook(Feature):
     input_to_feature = {
-        "show all": (PickBookFromDatabase(), "Allows to pick a book from database"),
-        "add new": (AddNewBook(), "Allows to add a new book"),
-        "quit": (Quit(), "Quit and save"),
-        "help": (DisplayHelp(), "Displays all commands"),
+        "show all": PickBookFromDatabase(),
+        "add new": AddNewBook(),
+        "quit": QuitAndSave(),
+        "help": DisplayHelp(),
     }
 
     def __init__(self):

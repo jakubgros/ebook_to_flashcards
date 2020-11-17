@@ -6,9 +6,9 @@ from src.features.make_flashcards import MakeFlashcards
 
 class ShowMainMenuFeature(Feature):
     input_to_feature = {
-        "1": (InterrogateToMarkKnownWordsFeature(), "Allows you to process a book in order to mark known words"),
-        "2": (MakeFlashcards(), "Allows to make a flashcards from unknown words from a book"),
-        "help": (DisplayHelp(), "Displays help") #TODO move description to the feature
+        "1": InterrogateToMarkKnownWordsFeature(),
+        "2": MakeFlashcards(),
+        "help": DisplayHelp(),
     }
 
     event_handler = EventHandler(input_to_feature)

@@ -5,6 +5,8 @@ from src.translator.translator import Translator
 
 
 class MakeFlashcards(Feature):
+    HELP = "Allows to make a flashcards from unknown words from a book"
+
     def run(self, interface, book, **kwargs):
         book = ChoseBook().run(interface, **kwargs)
 
