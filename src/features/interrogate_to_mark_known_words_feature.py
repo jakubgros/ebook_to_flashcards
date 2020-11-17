@@ -89,7 +89,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
     }
 
     def __init__(self):
-        self.event_handler = EventHandler(self.event_to_feature_mapping, self.input_to_event_mapping, self.EventTypes)
+        self.event_handler = EventHandler(self.event_to_feature_mapping)
 
     def run(self, interface, **kwargs):
 
@@ -110,6 +110,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
                                                  size=len(it), input_to_event_mapping=self.input_to_event_mapping,
                                                  book=book)
         finally:
+            db = Database()
             db.store_book(book)
 
 

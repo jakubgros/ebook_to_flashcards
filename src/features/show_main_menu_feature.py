@@ -27,7 +27,7 @@ class ShowMainMenuFeature(Feature):
         EventTypes.DISPLAY_HELP: DisplayHelp(),
     }
 
-    event_handler = EventHandler(event_to_feature_mapping, input_to_event_mapping, EventTypes)
+    event_handler = EventHandler(event_to_feature_mapping)
 
     def run(self, interface, **kwargs):
         ShowMainMenuFeature.event_handler.process(interface, ShowMainMenuFeature.EventTypes.DISPLAY_HELP,

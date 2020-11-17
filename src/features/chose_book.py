@@ -70,7 +70,7 @@ class ChoseBook(Feature):
     }
 
     def __init__(self):
-        self.event_handler = EventHandler(self.event_to_feature_mapping, self.input_to_event_mapping, self.EventTypes)
+        self.event_handler = EventHandler(self.event_to_feature_mapping)
 
     def run(self, interface, **kwargs):
         self.event_handler.process(interface, self.EventTypes.HELP,

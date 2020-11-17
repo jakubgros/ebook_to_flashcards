@@ -7,5 +7,5 @@ class DisplayHelp(Feature):
         pass
 
     def run(self, interface, *, input_to_event_mapping, **kwargs):
-        for command, (_, description) in input_to_event_mapping.items():
+        for command, description in input_to_event_mapping.items():
             interface.display_info(f"\t{command} = {description}")
