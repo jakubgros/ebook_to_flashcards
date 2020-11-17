@@ -11,6 +11,12 @@ from src.iterator import Iterator
 from enum import Enum, auto
 
 
+class QuitAndSave(Feature):
+    def run(self, interface, *, book, **kwargs):
+        db = Database()
+        db.store_book(book)
+        exit(0)
+
 
 class ANSWER_KNOWN_feat(Feature):
     def run(self, interface, *, word, it, **kwargs):
@@ -78,6 +84,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         EventTypes.NEXT_NOT_PROCESSED: NEXT_NOT_PROCESSED_feat(),
         EventTypes.PREVIOUS_NOT_PROCESSED: PREVIOUS_NOT_PROCESSED_feat(),
         EventTypes.HELP: DisplayHelp(),
+        EventTypes.QUIT: QuitAndSave()
     }
 
     def __init__(self):
@@ -93,6 +100,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
             book = db.restore_book(book.name)
 
         it = Iterator(book.words)
+
         while not book.are_all_words_processed():
             idx, word = it.get()
 
@@ -100,11 +108,11 @@ class InterrogateToMarkKnownWordsFeature(Feature):
             event_translator = EventTranslator(self.input_to_event_mapping)
             event_str = interface.get_input(event_prompt, input_validator=event_translator.is_valid)
             event = event_translator.translate(event_str)
-            if event == self.EventTypes.QUIT:
-                pass
-                #TODO stack.unwind()
 
-            ret = self.event_handler.process(interface, event, it=it, idx=idx, word=word, size=len(it), input_to_event_mapping=self.input_to_event_mapping)
+            ret = self.event_handler.process(interface,
+                                             event, it=it, idx=idx, word=word,
+                                             size=len(it), input_to_event_mapping=self.input_to_event_mapping,
+                                             book=book)
 
 
     def _get_enter_word_prompt(self, word, idx, size):
