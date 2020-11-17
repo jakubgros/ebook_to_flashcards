@@ -1,10 +1,13 @@
 from src.database import Database
+from src.features.chose_book import ChoseBook
 from src.features.feature import Feature
 from src.translator.translator import Translator
 
 
 class MakeFlashcards(Feature):
     def run(self, interface, book, **kwargs):
+        book = ChoseBook().run(interface, **kwargs)
+
         if not book.are_all_words_processed():
             interface.display_info("The book is not fully processed. Please firstly mark known words. ")
             return

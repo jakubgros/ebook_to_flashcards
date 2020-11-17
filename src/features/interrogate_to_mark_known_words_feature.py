@@ -4,6 +4,7 @@ from src.book import Book
 from src.database import Database
 from src.event_translator import EventTranslator
 from src.event_handler import EventHandler
+from src.features.chose_book import ChoseBook
 from src.features.displayhelp import DisplayHelp
 from src.features.feature import Feature
 from src.iterator import Iterator
@@ -91,13 +92,8 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         self.event_handler = EventHandler(self.event_to_feature_mapping, self.input_to_event_mapping, self.EventTypes)
 
     def run(self, interface, **kwargs):
-        db = Database()
 
-        book_path = interface.get_input("Enter path to ebook", input_validator=lambda answ: os.path.isfile(answ))
-
-        book = Book.from_path(book_path)
-        if db.has_book(book.name):
-            book = db.restore_book(book.name)
+        book = ChoseBook().run(interface, **kwargs)
 
         it = Iterator(book.words)
         try:

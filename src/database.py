@@ -3,6 +3,7 @@ import os
 import shutil
 from pathlib import Path
 
+from src.book import Book
 from src.env_utils.base_dir import base_dir
 from src.serialization.serializer_manager import SerializerManager
 
@@ -53,6 +54,12 @@ class Database:
                         known_words.add(word)
 
         return known_words
+
+    def get_all_stored_books(self):
+        subfolders_names = [f.path.split('/')[-1] for f in os.scandir(self.data_path) if f.is_dir()]
+        all_books = []
+        for book_dir in subfolders_names:
+            all_books.append(self.restore_book(book_dir))
 
     def _get_book_uri(self, book_name):
         return self.data_path + "/" + book_name
