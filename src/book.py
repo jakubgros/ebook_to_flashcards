@@ -9,7 +9,7 @@ from src.word import Word
 
 class Book(Serializable):
     _STATIC_TYPE = "Book"
-    _PROPERTIES_TO_SERIALIZE = {'name', 'words', 'path', 'meaning'}
+    _PROPERTIES_TO_SERIALIZE = {'name', 'words', 'path', 'flashcards'}
 
     @classmethod
     def from_path(cls, path):
@@ -17,7 +17,7 @@ class Book(Serializable):
         book.path = path
         book.name = book._get_file_name(path)
         book.words = book._get_words(path)
-        book.meaning = []
+        book.flashcards = []
         return book
 
     def are_all_words_processed(self):

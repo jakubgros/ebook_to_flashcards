@@ -33,7 +33,7 @@ class Database:
 
         self._extend_known_words(book.known_words)
 
-        self._store_flashcards(save_dir, book.meaning)
+        self._store_flashcards(save_dir, book.flashcards)
 
     def restore_book(self, book_name):
         book_uri = self._get_book_uri(book_name)

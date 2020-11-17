@@ -35,7 +35,7 @@ class TestDatabase(unittest.TestCase):
         self.assertTrue(words_list_comparator(book.unknown_words, restored_book.unknown_words))
         self.assertEqual(book.name, restored_book.name)
         self.assertTrue(words_list_comparator(book.words, restored_book.words))
-        self.assertEqual(book.meaning, restored_book.meaning)
+        self.assertEqual(book.flashcards, restored_book.flashcards)
 
     def test_has_book(self):
         database = Database(self.db_handle)
@@ -72,8 +72,7 @@ class TestDatabase(unittest.TestCase):
         return lhs.stored_word == rhs.stored_word \
                and lhs.occurrences == rhs.occurrences \
                and lhs.is_known == rhs.is_known \
-               and lhs.is_checked == rhs.is_checked \
-               and lhs.translations == rhs.translations
+               and lhs.is_checked == rhs.is_checked
 
 
 if __name__ == '__main__':

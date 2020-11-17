@@ -3,7 +3,7 @@ from src.serialization.serializable import Serializable
 
 class Word(Serializable):
     _STATIC_TYPE = "Word"
-    _PROPERTIES_TO_SERIALIZE = {'stored_word', 'occurrences', 'is_known', 'is_checked', 'translations'}
+    _PROPERTIES_TO_SERIALIZE = {'stored_word', 'occurrences', 'is_known', 'is_checked'}
 
     def __init__(self, word=None):
         if word is not None:
@@ -14,7 +14,6 @@ class Word(Serializable):
         self.occurrences = 0
         self.is_known = False
         self.is_checked = False
-        self.translations = []
 
     def mark_if_known(self, is_known):
         self.is_known = is_known
@@ -22,6 +21,3 @@ class Word(Serializable):
 
     def add_occurrence(self):
         self.occurrences += 1
-
-    def add_translation(self, translation):
-        self.translations.append(translation)

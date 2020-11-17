@@ -12,7 +12,6 @@ class TestWord(unittest.TestCase):
         self.assertEqual(word.occurrences, 0)
         self.assertEqual(word.is_known, False) # TODO jagros probably it should be None
         self.assertEqual(word.is_checked, False)
-        self.assertEqual(len(word.translations), 0)
 
     def test_construction_with_incorrect_word_passed(self):
         with self.assertRaises(ValueError):
@@ -38,13 +37,6 @@ class TestWord(unittest.TestCase):
         self.assertEqual(word.occurrences, 1)
         word.add_occurrence()
         self.assertEqual(word.occurrences, 2)
-
-    def test_adding_translations(self):
-        word = Word("word")
-        self.assertEqual(len(word.translations), 0)
-        translation = "mock"
-        word.add_translation(translation)
-        self.assertEqual(word.translations, [translation])
 
 
 if __name__ == '__main__':

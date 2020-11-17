@@ -14,7 +14,7 @@ class BookTest(unittest.TestCase):
 
         self.assertEqual(len(book.known_words), 0)
         self.assertEqual(len(book.unknown_words), 0)
-        self.assertEqual(len(book.meaning), 0)
+        self.assertEqual(len(book.flashcards), 0)
 
         self.assertEqual(len(book.words), 6349)
 

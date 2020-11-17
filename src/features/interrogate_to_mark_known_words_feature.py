@@ -100,19 +100,21 @@ class InterrogateToMarkKnownWordsFeature(Feature):
             book = db.restore_book(book.name)
 
         it = Iterator(book.words)
+        try:
+            while not book.are_all_words_processed():
+                idx, word = it.get()
 
-        while not book.are_all_words_processed():
-            idx, word = it.get()
+                event_prompt = self._get_enter_word_prompt(word, idx, len(it))
+                event_translator = EventTranslator(self.input_to_event_mapping)
+                event_str = interface.get_input(event_prompt, input_validator=event_translator.is_valid)
+                event = event_translator.translate(event_str)
 
-            event_prompt = self._get_enter_word_prompt(word, idx, len(it))
-            event_translator = EventTranslator(self.input_to_event_mapping)
-            event_str = interface.get_input(event_prompt, input_validator=event_translator.is_valid)
-            event = event_translator.translate(event_str)
-
-            ret = self.event_handler.process(interface,
-                                             event, it=it, idx=idx, word=word,
-                                             size=len(it), input_to_event_mapping=self.input_to_event_mapping,
-                                             book=book)
+                ret = self.event_handler.process(interface,
+                                                 event, it=it, idx=idx, word=word,
+                                                 size=len(it), input_to_event_mapping=self.input_to_event_mapping,
+                                                 book=book)
+        finally:
+            db.store_book(book)
 
 
     def _get_enter_word_prompt(self, word, idx, size):
