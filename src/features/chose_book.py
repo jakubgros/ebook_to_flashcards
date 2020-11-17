@@ -4,7 +4,6 @@ from enum import Enum, auto
 from src.book import Book
 from src.database import Database
 from src.event_handler import EventHandler
-from src.event_translator import EventTranslator
 from src.features.displayhelp import DisplayHelp
 from src.features.feature import Feature
 
@@ -48,39 +47,22 @@ class PickBookFromDatabase(Feature):
         return all_stored_books[choice]
 
 class ChoseBook(Feature):
-
-    class EventTypes(Enum):
-        QUIT = auto()
-        HELP = auto()
-        SHOW_ALL_BOOKS = auto()
-        ADD_NEW_BOOK = auto()
-
-    input_to_event_mapping = {
-        "show all": (EventTypes.SHOW_ALL_BOOKS, "Allows to pick a book from database"),
-        "add new": (EventTypes.ADD_NEW_BOOK, "Allows to add a new book"),
-        "quit": (EventTypes.QUIT, "Quit and save"),
-        "help": (EventTypes.HELP, "Displays all commands"),
-    }
-
-    event_to_feature_mapping = {
-        EventTypes.ADD_NEW_BOOK: AddNewBook(),
-        EventTypes.SHOW_ALL_BOOKS: PickBookFromDatabase(),
-        EventTypes.HELP: DisplayHelp(),
-        EventTypes.QUIT: Quit()
+    input_to_feature = {
+        "show all": (PickBookFromDatabase(), "Allows to pick a book from database"),
+        "add new": (AddNewBook(), "Allows to add a new book"),
+        "quit": (Quit(), "Quit and save"),
+        "help": (DisplayHelp(), "Displays all commands"),
     }
 
     def __init__(self):
-        self.event_handler = EventHandler(self.event_to_feature_mapping)
+        self.event_handler = EventHandler(self.input_to_feature)
 
     def run(self, interface, **kwargs):
-        self.event_handler.process(interface, self.EventTypes.HELP,
-                                                  input_to_event_mapping=self.input_to_event_mapping)  # TODO jagros add validation to Feature class that everything that is needed by features is passed to process
+        self.event_handler.process(interface, "help", input_to_feature=self.input_to_feature)
 
         while True:
-            event_translator = EventTranslator(self.input_to_event_mapping)
-            event_str = interface.get_input("your choice", input_validator=event_translator.is_valid)
-            event = event_translator.translate(event_str)
-            ret = self.event_handler.process(interface, event, **kwargs)
+            feature_str = interface.get_input("your choice", input_validator=lambda answ: answ in self.input_to_feature)
+            ret = self.event_handler.process(interface, feature_str, **kwargs)
 
             if ret is not None:
                 return ret
