@@ -14,9 +14,6 @@ class ChoseBook(Feature):
         "help": DisplayHelp(),
     }
 
-    def __init__(self):
-        self.event_handler = EventHandler(self.input_to_feature)
-
     def run(self, interface, **kwargs):
         self.event_handler.process(interface, "help", input_to_feature=self.input_to_feature)
 

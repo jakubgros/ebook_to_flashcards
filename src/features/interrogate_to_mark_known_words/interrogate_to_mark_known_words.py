@@ -27,9 +27,6 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         "help": DisplayHelp(),
     }
 
-    def __init__(self):
-        self.event_handler = EventHandler(self.input_to_feature)
-
     def run(self, interface, **kwargs):
         book = ChoseBook().run(interface, **kwargs)
 
@@ -40,10 +37,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
 
                 event_prompt = self._get_enter_word_prompt(word, idx, len(it))
                 feature_str = interface.get_input(event_prompt, input_validator=lambda answ: answ in self.input_to_feature)
-                ret = self.event_handler.process(interface,
-                                                 feature_str, it=it, idx=idx, word=word,
-                                                 size=len(it), input_to_event_mapping=self.input_to_event_mapping,
-                                                 book=book)
+                ret = self.event_handler.process(interface, feature_str, it=it, idx=idx, word=word, size=len(it), book=book)
         finally:
             db = Database()
             db.store_book(book)

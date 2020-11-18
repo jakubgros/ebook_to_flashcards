@@ -12,8 +12,6 @@ class ShowMainMenuFeature(Feature):
         "help": DisplayHelp(),
     }
 
-    event_handler = EventHandler(input_to_feature)
-
     def run(self, interface, **kwargs):
         self.event_handler.process(interface, "help", input_to_feature=ShowMainMenuFeature.input_to_feature)
 

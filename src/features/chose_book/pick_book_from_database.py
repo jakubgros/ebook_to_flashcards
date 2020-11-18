@@ -8,8 +8,8 @@ class PickBookFromDatabase(Feature):
 
     def run(self, interface, **kwargs):
         db = Database()
-
         all_stored_books = db.get_all_stored_books()
+
         if not all_stored_books:
             interface.display_info(f"There are no books in database")
             return None
