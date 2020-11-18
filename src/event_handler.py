@@ -1,5 +1,6 @@
 from src.features.common.display_help import DisplayHelp
 from src.features.common.quit import Quit
+from src.input_processors.key_exists_in_map_processor import KeyExistsInMapProcessor
 
 
 class EventHandler:
@@ -18,12 +19,11 @@ class EventHandler:
         self.input_to_feature = input_to_feature.copy()
         self.input_to_feature.update(input_to_common_features)
 
+        self.input_processor = KeyExistsInMapProcessor(self.input_to_feature)
+
     def process(self, interface, input_choice, **kwargs):
         feature = self.input_to_feature[input_choice]
         kwargs['input_to_feature'] = self.input_to_feature
         return feature.run(interface, **kwargs)
-
-    def validate_input(self, to_validate):
-        return to_validate in self.input_to_feature
 
 

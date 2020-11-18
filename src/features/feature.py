@@ -16,7 +16,7 @@ class Feature:
             if display_help:
                 self.event_handler.process(interface, "help")
 
-            feature_str = interface.get_input("Your choice", input_validator=self.event_handler.validate_input)
+            feature_str = interface.get_input("Your choice", input_processor=self.event_handler.input_processor)
             if display_help and feature_str == "help":  # so as not to display help twice
                 continue
 
