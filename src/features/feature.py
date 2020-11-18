@@ -13,7 +13,7 @@ class Feature:
 
     def run_event_loop(self, interface, **kwargs):
         while True:
-            feature_str = interface.get_input("Your choice", input_validator=lambda answ: answ in self.input_to_feature)
+            feature_str = interface.get_input("Your choice", input_validator=self.event_handler.validate_input)
             ret = self.event_handler.process(interface, feature_str, **kwargs)
 
             if ret is not None:

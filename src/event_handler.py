@@ -23,3 +23,7 @@ class EventHandler:
         kwargs['input_to_feature'] = self.input_to_feature
         return feature.run(interface, **kwargs)
 
+    def validate_input(self, to_validate):
+        return to_validate in self.input_to_feature
+
+
