@@ -11,9 +11,6 @@ class ChoseBook(Feature):
     }
 
     def run(self, interface, **kwargs):
-
-        self.event_handler.process(interface, "help")
-
-        ret = self.run_event_loop(interface, **kwargs)
+        ret = self.run_event_loop(interface, display_help=True, **kwargs)
         if ret is not None:
             return ret

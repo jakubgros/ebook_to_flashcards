@@ -10,8 +10,7 @@ class ShowMainMenuFeature(Feature):
     }
 
     def run(self, interface, **kwargs):
-        self.event_handler.process(interface, "help")
-        self.run_event_loop(interface, **kwargs)
+        self.run_event_loop(interface, display_help=True, **kwargs)
 
 
 

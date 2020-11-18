@@ -11,9 +11,15 @@ class Feature:
     def run(self, interface, **kwargs):
         raise NotImplementedError
 
-    def run_event_loop(self, interface, **kwargs):
+    def run_event_loop(self, interface, display_help, **kwargs):
         while True:
+            if display_help:
+                self.event_handler.process(interface, "help")
+
             feature_str = interface.get_input("Your choice", input_validator=self.event_handler.validate_input)
+            if display_help and feature_str == "help":  # so as not to display help twice
+                continue
+
             ret = self.event_handler.process(interface, feature_str, **kwargs)
 
             if ret is not None:
