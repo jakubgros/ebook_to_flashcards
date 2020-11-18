@@ -1,6 +1,6 @@
 from src.database import Database
-from src.features.feature import Feature
-from src.input_processors.int_range_validator import IntInRangeInputProcessor
+from src.console_app_framework.feature import Feature
+from src.console_app_framework.input_processors.int_range_processor import IntInRangeInputProcessor
 
 
 class PickBookFromDatabase(Feature):

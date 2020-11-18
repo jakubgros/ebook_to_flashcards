@@ -1,15 +1,22 @@
 from src.database import Database
 from src.features.chose_book.chose_book import ChoseBook
-from src.features.feature import Feature
+from src.console_app_framework.feature import Feature
 from src.features.interrogate_to_mark_known_words.go_to_next import GoToNext
 from src.features.interrogate_to_mark_known_words.go_to_next_not_processed import GoToNextNotProcessed
 from src.features.interrogate_to_mark_known_words.go_to_previous import GoToPrevious
 from src.features.interrogate_to_mark_known_words.go_to_previous_not_processed import GoToPreviousNotProcessed
 from src.features.interrogate_to_mark_known_words.mark_known_answer import MarkKnownAnswer
 from src.features.interrogate_to_mark_known_words.mark_unknown_answer import MarkUnknownAnswer
-from src.features.common.quit_and_save import QuitAndSave
 from src.iterator import Iterator
 
+
+class QuitAndSave(Feature):
+    HELP = "Quit and save"
+
+    def run(self, interface, *, book, **kwargs):
+        db = Database()
+        db.store_book(book)
+        exit(0)
 
 class InterrogateToMarkKnownWordsFeature(Feature):
     HELP = "Allows you to process a book in order to mark known words"

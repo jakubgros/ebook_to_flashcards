@@ -86,7 +86,7 @@ class Database:
             for word in words:
                 print(word.stored_word, file=out_file)
 
-    def _store_flashcards(self, save_dir, translations):
+    def _store_flashcards(self, save_dir, translations): #TODO merge flashcards with the same english word
         with open(save_dir + "\\flashcards.txt", 'w+') as out_file:
             for translation in translations:
                 print(translation, file=out_file)

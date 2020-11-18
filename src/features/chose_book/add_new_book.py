@@ -1,7 +1,7 @@
 from src.book import Book
 from src.database import Database
-from src.features.feature import Feature
-from src.input_processors.file_path_processor import FilePathProcessor
+from src.console_app_framework.feature import Feature
+from src.console_app_framework.input_processors.file_path_processor import FilePathProcessor
 
 
 class AddNewBook(Feature):

@@ -1,4 +1,4 @@
-from src.features.feature import Feature
+from src.console_app_framework.feature import Feature
 
 
 class MarkUnknownAnswer(Feature):

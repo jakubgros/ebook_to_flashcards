@@ -1,4 +1,4 @@
-from src.input_processors.input_processor import InputProcessor
+from src.console_app_framework.input_processors.input_processor import InputProcessor
 
 
 class KeyExistsInMapProcessor(InputProcessor):

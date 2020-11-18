@@ -1,6 +1,6 @@
-from src.features.common.display_help import DisplayHelp
-from src.features.common.quit import Quit
-from src.input_processors.key_exists_in_map_processor import KeyExistsInMapProcessor
+from src.console_app_framework.common_features.display_help import DisplayHelp
+from src.console_app_framework.common_features.quit import Quit
+from src.console_app_framework.input_processors.key_exists_in_map_processor import KeyExistsInMapProcessor
 
 
 class EventHandler:

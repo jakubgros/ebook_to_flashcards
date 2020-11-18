@@ -1,9 +1,9 @@
 from src.database import Database
 from src.features.chose_book.chose_book import ChoseBook
-from src.features.feature import Feature
-from src.translator.translator import Translator
-from src.input_processors.int_range_validator import IntInRangeInputProcessor
-from src.input_processors.multiple_input_processor import MultipleInputProcessor
+from src.console_app_framework.feature import Feature
+from src.translator import Translator
+from src.console_app_framework.input_processors.int_range_processor import IntInRangeInputProcessor
+from src.console_app_framework.input_processors.multiple_input_processor import MultipleInputProcessor
 
 
 class MakeFlashcards(Feature):

@@ -1,4 +1,4 @@
-from src.features.feature import Feature
+from src.console_app_framework.feature import Feature
 from src.features.interrogate_to_mark_known_words.interrogate_to_mark_known_words import InterrogateToMarkKnownWordsFeature
 from src.features.make_flashcards import MakeFlashcards
 
