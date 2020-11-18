@@ -8,7 +8,7 @@ from src.validators.int_range_validator import IntInRangeValidator
 class MakeFlashcards(Feature):
     HELP = "Allows to make a flashcards from unknown words from a book"
 
-    def run(self, interface, book, **kwargs):
+    def run(self, interface, **kwargs):
         book = ChoseBook().run(interface, **kwargs)
 
         if not book.are_all_words_processed():

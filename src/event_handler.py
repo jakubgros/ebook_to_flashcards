@@ -15,7 +15,7 @@ class EventHandler:
         }
 
         self._validate_inputs_mapping(input_to_feature, input_to_common_features.keys())
-        self.input_to_feature = input_to_feature
+        self.input_to_feature = input_to_feature.copy()
         self.input_to_feature.update(input_to_common_features)
 
     def process(self, interface, input_choice, **kwargs):

@@ -35,6 +35,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
                 event_prompt = self._get_enter_word_prompt(word, idx, len(it))
                 feature_str = interface.get_input(event_prompt, input_validator=lambda answ: answ in self.input_to_feature)
                 self.event_handler.process(interface, feature_str, it=it, idx=idx, word=word, size=len(it), book=book)
+            interface.display_info("All words in the book has been processed. ")
         finally:
             db = Database()
             db.store_book(book)

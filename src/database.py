@@ -57,9 +57,7 @@ class Database:
 
     def get_all_stored_books(self):
         subfolders_names = [f.path.split('/')[-1] for f in os.scandir(self.data_path) if f.is_dir()]
-        all_books = []
-        for book_dir in subfolders_names:
-            all_books.append(self.restore_book(book_dir))
+        return [self.restore_book(book_dir) for book_dir in subfolders_names]
 
     def _get_book_uri(self, book_name):
         return self.data_path + "/" + book_name
