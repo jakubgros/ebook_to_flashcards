@@ -1,5 +1,6 @@
 from src.database import Database
 from src.features.feature import Feature
+from src.validators.int_range_validator import IntInRangeValidator
 
 
 class PickBookFromDatabase(Feature):
@@ -16,15 +17,6 @@ class PickBookFromDatabase(Feature):
         for idx, book in enumerate(all_stored_books):
             interface.display_info(f"[{idx}] {book.name}")
 
-        def is_answer_valid(answ):
-            try:
-                int_answ = int(answ)
-                if 0 < int_answ < len(all_stored_books):
-                    return True
-            except:
-                pass
-            return False
-
-        choice = interface.get_input("Your choice", input_validator=is_answer_valid)
+        choice = interface.get_input("Your choice", input_validator=IntInRangeValidator(0, len(all_stored_books)))
 
         return all_stored_books[choice]
