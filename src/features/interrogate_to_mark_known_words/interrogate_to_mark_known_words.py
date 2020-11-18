@@ -1,7 +1,5 @@
 from src.database import Database
-from src.event_handler import EventHandler
 from src.features.chose_book.chose_book import ChoseBook
-from src.features.common.display_help import DisplayHelp
 from src.features.feature import Feature
 from src.features.interrogate_to_mark_known_words.go_to_next import GoToNext
 from src.features.interrogate_to_mark_known_words.go_to_next_not_processed import GoToNextNotProcessed
@@ -24,7 +22,6 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         "quit": QuitAndSave(),
         "fwd np": GoToNextNotProcessed(),
         "back np": GoToPreviousNotProcessed(),
-        "help": DisplayHelp(),
     }
 
     def run(self, interface, **kwargs):
@@ -37,7 +34,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
 
                 event_prompt = self._get_enter_word_prompt(word, idx, len(it))
                 feature_str = interface.get_input(event_prompt, input_validator=lambda answ: answ in self.input_to_feature)
-                ret = self.event_handler.process(interface, feature_str, it=it, idx=idx, word=word, size=len(it), book=book)
+                self.event_handler.process(interface, feature_str, it=it, idx=idx, word=word, size=len(it), book=book)
         finally:
             db = Database()
             db.store_book(book)

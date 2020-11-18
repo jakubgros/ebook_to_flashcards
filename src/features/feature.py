@@ -1,10 +1,11 @@
-from src.event_handler import EventHandler
 
 
 class Feature:
     HELP = None
 
     def __init__(self):
+        from src.event_handler import EventHandler
+
         if hasattr(self, 'input_to_feature'):
             self.event_handler = EventHandler(self.input_to_feature)
 
@@ -15,7 +16,7 @@ class Feature:
     def run_event_loop(self, interface, **kwargs):
         while True:
             feature_str = interface.get_input("Your choice", input_validator=lambda answ: answ in self.input_to_feature)
-            ret = self.event_handler.process(interface, feature_str, input_to_feature=self.input_to_feature, **kwargs)
+            ret = self.event_handler.process(interface, feature_str, **kwargs)
 
             if ret is not None:
                 return ret
