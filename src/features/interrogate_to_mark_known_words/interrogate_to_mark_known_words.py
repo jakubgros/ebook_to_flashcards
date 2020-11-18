@@ -19,7 +19,7 @@ class InterrogateToMarkKnownWordsFeature(Feature):
         "w": MarkUnknownAnswer(),
         "back": GoToPrevious(),
         "fwd": GoToNext(),
-        "quit": QuitAndSave(),
+        "quit and save": QuitAndSave(),
         "fwd np": GoToNextNotProcessed(),
         "back np": GoToPreviousNotProcessed(),
     }

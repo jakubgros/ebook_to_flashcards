@@ -1,21 +1,22 @@
-from src.features.feature import Feature
+from src.features.common.display_help import DisplayHelp
+from src.features.common.quit import Quit
 
-class DisplayHelp(Feature):
-    HELP = "Displays info"
-
-    def run(self, interface, *, input_to_feature, **kwargs):
-        for command, feature in input_to_feature.items():
-            interface.display_info(f"\t{command} = {feature.HELP}")
 
 class EventHandler:
-    help_command = 'help'
+    def _validate_inputs_mapping(self, received_input_to_feature_mapping, reserved_commands):
+        duplicated_commands = [command for command in reserved_commands if command in received_input_to_feature_mapping]
+        if duplicated_commands:
+            raise Exception(f"The following feature names are reserved: {', '.join(duplicated_commands)}. ")
 
     def __init__(self, input_to_feature):
-        if self.help_command in input_to_feature:
-            raise Exception(f"the '{self.help_command}' feature name is reserved. ")
+        input_to_common_features = {
+            'help': DisplayHelp(),
+            'quit': Quit(),
+        }
 
+        self._validate_inputs_mapping(input_to_feature, input_to_common_features.keys())
         self.input_to_feature = input_to_feature
-        self.input_to_feature[self.help_command] = DisplayHelp()
+        self.input_to_feature.update(input_to_common_features)
 
     def process(self, interface, input_choice, **kwargs):
         feature = self.input_to_feature[input_choice]
