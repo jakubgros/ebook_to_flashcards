@@ -4,9 +4,9 @@ from src.env_utils.base_dir import base_dir
 
 
 class TranslationUnit:
-    def __init__(self, word, meaning, examples_and_its_translations):
-        self.word = word
-        self.meaning = meaning
+    def __init__(self, words, meanings, examples_and_its_translations):
+        self.words = words
+        self.meanings = meanings
         self.examples_and_its_translations = examples_and_its_translations
 
 
