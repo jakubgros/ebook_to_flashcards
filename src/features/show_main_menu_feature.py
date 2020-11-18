@@ -1,8 +1,9 @@
 from src.event_handler import EventHandler
-from src.features.displayhelp import DisplayHelp
+from src.features.common.display_help import DisplayHelp
 from src.features.feature import Feature
-from src.features.interrogate_to_mark_known_words_feature import InterrogateToMarkKnownWordsFeature
+from src.features.interrogate_to_mark_known_words.interrogate_to_mark_known_words import InterrogateToMarkKnownWordsFeature
 from src.features.make_flashcards import MakeFlashcards
+
 
 class ShowMainMenuFeature(Feature):
     input_to_feature = {
