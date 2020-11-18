@@ -17,6 +17,6 @@ class PickBookFromDatabase(Feature):
         for idx, book in enumerate(all_stored_books):
             interface.display_info(f"[{idx}] {book.name}")
 
-        choice = interface.get_input("Your choice", input_validator=IntInRangeValidator(0, len(all_stored_books)))
+        choice = interface.get_input("Your choice", input_validator=IntInRangeValidator(valid_range=(0, len(all_stored_books))))
 
         return all_stored_books[choice]

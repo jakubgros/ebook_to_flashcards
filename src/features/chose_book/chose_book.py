@@ -16,10 +16,4 @@ class ChoseBook(Feature):
 
     def run(self, interface, **kwargs):
         self.event_handler.process(interface, "help", input_to_feature=self.input_to_feature)
-
-        while True:
-            feature_str = interface.get_input("Your choice", input_validator=lambda answ: answ in self.input_to_feature)
-            ret = self.event_handler.process(interface, feature_str, **kwargs)
-
-            if ret is not None:
-                return ret
+        self.run_event_loop(interface, **kwargs)

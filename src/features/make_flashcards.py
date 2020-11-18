@@ -2,6 +2,7 @@ from src.database import Database
 from src.features.chose_book.chose_book import ChoseBook
 from src.features.feature import Feature
 from src.translator.translator import Translator
+from src.validators.int_range_validator import IntInRangeValidator
 
 
 class MakeFlashcards(Feature):
@@ -21,16 +22,7 @@ class MakeFlashcards(Feature):
             word_translations = translator.get_translation(word.stored_word)
             prompt = self.get_translation_choice_prompt(idx, unknown_words_cnt, word_translations)
 
-            def answ_validator(str_val):
-                try:
-                    int_val = int(str_val)
-                    if 0 <= int_val < len(word_translations):
-                        return True
-                except:
-                    pass
-                return False
-
-            choice = interface.get_input(prompt, input_validator=answ_validator)
+            choice = interface.get_input(prompt, input_validator=IntInRangeValidator(valid_range=(0, len(word_translations))))
             choice = int(choice) #TODO input_validator could also make the conversion
 
             chosen_translation = word_translations[choice]
