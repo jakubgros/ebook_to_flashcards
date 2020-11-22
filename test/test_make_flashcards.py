@@ -3,8 +3,7 @@ import unittest
 from src.book import Book
 from src.env_utils.base_dir import base_dir
 from src.features.make_flashcards import MakeFlashcards
-from src.translator.translator import Translator
-from src.user_interface import Interface
+from src.console_app_framework.interface import Interface
 
 
 class MyTestCase(unittest.TestCase):

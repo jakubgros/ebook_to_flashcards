@@ -1,0 +1,1 @@
+#TODO make main packages self contained and move tests into it

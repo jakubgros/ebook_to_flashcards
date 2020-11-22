@@ -22,10 +22,10 @@ class InterrogateToMarkKnownWordsFeature(Feature):
     HELP = "Allows you to process a book in order to mark known words"
 
     input_to_feature = {
-        "q": MarkKnownAnswer(),
+        "e": MarkKnownAnswer(),
         "w": MarkUnknownAnswer(),
-        "back": GoToPrevious(),
-        "fwd": GoToNext(),
+        "q": GoToPrevious(),
+        "r": GoToNext(),
         "quit and save": QuitAndSave(),
         "fwd np": GoToNextNotProcessed(),
         "back np": GoToPreviousNotProcessed(),
