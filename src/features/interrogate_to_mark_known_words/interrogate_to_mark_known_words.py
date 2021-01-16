@@ -34,6 +34,9 @@ class InterrogateToMarkKnownWordsFeature(Feature):
     def run(self, interface, **kwargs):
         book = ChoseBook().run(interface, **kwargs)
 
+        #TODO add excluding known words
+
+
         it = Iterator(book.words)
         try:
             while not book.are_all_words_processed():
